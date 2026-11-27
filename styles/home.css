@@ -1,0 +1,129 @@
+/* Search & Tabs Surface */
+.top-surface {
+  background: var(--grey-0);
+  display: flex;
+  flex-direction: column;
+}
+
+.search-bar {
+  padding: 16px 16px 20px;
+}
+
+.search-box {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+}
+
+.search-input {
+  width: 100%;
+  height: 52px;
+  padding: 0 12px 0 48px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--grey-0);
+  box-shadow: 0 1px 8px rgba(46, 42, 37, 0.22);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 300;
+  color: var(--grey-900);
+}
+
+.search-input::placeholder {
+  color: var(--grey-500);
+}
+
+.tab-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 0 16px;
+}
+
+.tab {
+  min-width: 132px;
+  height: 42px;
+  padding: 0 16px;
+  border-radius: 10px 10px 0 0;
+  background: var(--grey-200);
+  color: var(--grey-600);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.tab.active {
+  height: 46px;
+  padding-top: 4px;
+  background: var(--brand-800);
+  color: var(--grey-0);
+}
+
+.tab-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  background-color: currentColor;
+}
+
+.tab-icon-mrt {
+  -webkit-mask: url("../icons/mrt.svg") no-repeat center / contain;
+  mask: url("../icons/mrt.svg") no-repeat center / contain;
+}
+
+.tab-icon-bus {
+  -webkit-mask: url("../icons/bus.svg") no-repeat center / contain;
+  mask: url("../icons/bus.svg") no-repeat center / contain;
+}
+
+/* Home Content Area */
+.content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Station Section */
+.station-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 4px;
+}
+
+.station-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.station-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.station-name {
+  margin: 0;
+  font-family: "LTA-Identity", "Roboto", sans-serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--black);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

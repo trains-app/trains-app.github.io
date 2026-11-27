@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRAINS</title>
+  <link rel="stylesheet" href="styles/global.css">
+  <link rel="stylesheet" href="styles/home.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <button class="menu-button" type="button">
+      <img src="icons/menu.svg">
+    </button>
+    <img class="header-logo" src="icons/logo-full.svg">
+  </header>
+
+  <!-- Banner -->
+  <div class="banner">
+    <img class="banner-icon" src="icons/megaphone.svg">
+    <span class="banner-text">Announcements</span>
+    <span class="banner-badge">1</span>
+    <img class="banner-arrow" src="icons/chevron.svg">
+  </div>
+
+  <!-- Search Box & Tabs -->
+  <section class="top-surface">
+    <div class="search-bar">
+      <div class="search-box">
+        <img class="search-icon" src="icons/search.svg">
+        <input class="search-input" type="text" placeholder="Bus service, bus stop, or MRT/LRT station">
+      </div>
+    </div>
+
+    <div class="tab-bar" role="tablist">
+      <button class="tab active" role="tab" type="button">
+        <span class="tab-icon tab-icon-mrt"></span>
+        <span>MRT/LRT</span>
+      </button>
+
+      <button class="tab" role="tab" type="button">
+        <span class="tab-icon tab-icon-bus"></span>
+        <span>BUS</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Main content -->
+  <main class="content">
+    <div class="pill-row" role="group">
+      <button class="pill active" type="button">Favourites</button>
+      <button class="pill" type="button">Nearby</button>
+    </div>
+
+    <section class="station-group">
+      <div class="station-header">
+        <div class="station-title">
+          <span data-caplet="NS3"></span>
+          <h2 class="station-name">Bukit Gombak</h2>
+        </div>
+        <a class="link-chevron" href="">
+          <span>More</span><span class="chevron-icon" aria-hidden="true"></span>
+        </a>
+      </div>
+      <!-- Platform A -->
+  <div class="platform-group">
+    <div class="platform-header">
+      <span class="platform-badge line-nsl">A</span>
+      <span class="platform-dest">to Jurong East</span>
+    </div>
+
+    <div class="train-grid">
+      <div class="train-card is-first">
+        <div class="train-time"><strong>1</strong> min</div>
+        <div class="train-terminus">Jurong East</div>
+      </div>
+
+      <div class="train-card">
+        <div class="train-time"><strong>4</strong> mins</div>
+        <div class="train-terminus">Jurong East</div>
+      </div>
+
+      <div class="train-card">
+        <div class="train-time"><strong>8</strong> mins</div>
+        <div class="train-terminus">Jurong East</div>
+      </div>
+    </div>
+  </div>
+    </section>
+  </main>
+
+  <script src="scripts/caplets.js"></script> <!-- the script that will handle caplets -->
+</body>
+
+</html>

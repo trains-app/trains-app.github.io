@@ -1,0 +1,351 @@
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@font-face {
+  font-family: "LTA-Identity";
+  src: url("../fonts/LTA-Identity.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Stroudley";
+  font-weight: bold;
+  font-style: normal;
+  src: url("../fonts/Stroudley-Bold.ttf");
+  font-display: swap;
+}
+
+/* Colours */
+:root {
+  /* Signage */
+  --black: #2E2A25;
+  --exit-yellow: #FFD100;
+
+  /* Network */
+  --nsl: #DF2827;
+  --ewl: #009645;
+  --nel: #9900AB;
+  --ccl: #FA9E0D;
+  --dtl: #0055B8;
+  --tel: #9D5918;
+  --jrl: #00ADBB;
+  --crl: #93D500;
+  --stl: #FF99CE;
+  --lrt: #708270;
+  --bus: #93D500;
+
+  /* Brand */
+  --brand-900: #002B2A;
+  --brand-800: #003D3B;
+  --brand-700: #004D4A;
+  --brand-600: #06605C;
+  --brand-500: #117571;
+  --brand-400: #2E8E89;
+  --brand-300: #5FABA7;
+  --brand-200: #94C7C4;
+  --brand-100: #C9E3E1;
+  --brand-50: #E8F3F2;
+  --brand-accent: #FFD040;
+
+  /* Grey */
+  --grey-900: #2E2A25;
+  --grey-700: #454850;
+  --grey-600: #5C616A;
+  --grey-500: #7A808A;
+  --grey-400: #9FA5AE;
+  --grey-300: #C5CAD1;
+  --grey-200: #DDE0E5;
+  --grey-100: #ECEEF1;
+  --grey-50: #F5F6F8;
+  --grey-0: #FFFFFF;
+
+  /* System */
+  --error-solid: #D42E12;
+  --error-tint: #FDECE8;
+  --error-border: #FAD0C7;
+  --error-shade: #A82309;
+
+  --warning-solid: #FCC917;
+  --warning-tint: #FFF7DB;
+  --warning-border: #FFEDAE;
+  --warning-shade: #5E4200;
+
+  --success-solid: #007A38;
+  --success-tint: #E6F5EC;
+  --success-border: #C2E7D0;
+  --success-shade: #006B30;
+
+  --info-solid: #00599C;
+  --info-tint: #E6F0F8;
+  --info-border: #C2DAEE;
+  --info-shade: #004A83;
+
+  /* Bus Load */
+  --busload-red: #FF595D;
+  --busload-orange: #FEB633;
+  --busload-green: #59B201;
+}
+
+.line-nsl { background: var(--nsl); color: var(--grey-0); }
+.line-ewl { background: var(--ewl); color: var(--grey-0); }
+.line-nel { background: var(--nel); color: var(--grey-0); }
+.line-ccl { background: var(--ccl); color: var(--black); }
+.line-dtl { background: var(--dtl); color: var(--grey-0); }
+.line-tel { background: var(--tel); color: var(--grey-0); }
+.line-jrl { background: var(--jrl); color: var(--grey-0); }
+.line-crl { background: var(--crl); color: var(--black); }
+.line-stl { background: var(--stl); color: var(--black); }
+.line-lrt { background: var(--lrt); color: var(--grey-0); }
+
+/* Caplets */
+.caplet-svg {
+  display: inline-block;
+  height: 28px;
+  width: auto;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.caplet-svg text {
+  font-family: "LTA-Identity", "Roboto", sans-serif;
+  font-size: 14px;
+  dominant-baseline: central;
+  text-anchor: middle;
+  letter-spacing: 0.02em;
+}
+
+/* Base */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--grey-50);
+}
+
+body {
+  min-height: 100dvh;
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  color: var(--black);
+}
+
+button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Header */
+.header {
+  position: relative;
+  height: 56px;
+  padding: 0 56px;
+  background: var(--brand-800);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-logo {
+  display: block;
+  height: 28px;
+  max-width: 100%;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  cursor: pointer;
+}
+
+.menu-button {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.menu-button img {
+  display: block;
+  width: 26px;
+}
+
+/* Banner */
+.banner {
+  min-height: 50px;
+  padding: 0 clamp(10px, 4.5vw, 16px);
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 3.5vw, 12px);
+  background: var(--info-tint);
+  color: var(--info-shade);
+}
+
+.banner-icon {
+  width: clamp(16px, 7vw, 24px);
+  flex-shrink: 0;
+}
+
+.banner-text {
+  flex: 1;
+  font-size: clamp(0.8rem, 7vw, 1.3rem);
+  white-space: nowrap;
+}
+
+.banner-badge {
+  width: clamp(16px, 6.5vw, 22px);
+  height: clamp(16px, 6.5vw, 22px);
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--info-solid);
+  color: var(--grey-0);
+  font-size: clamp(0.65rem, 4vw, 0.875rem);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-arrow {
+  width: clamp(12px, 5vw, 18px);
+  flex-shrink: 0;
+}
+
+/* Pills */
+.pill-row {
+  display: flex;
+  align-self: flex-start;
+  gap: 8px;
+}
+
+.pill {
+  min-width: 90px;
+  padding: 5px 20px;
+  border-radius: 999px;
+  background: var(--grey-200);
+  color: var(--grey-600);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.pill.active {
+  background: var(--brand-800);
+  color: var(--grey-0);
+}
+
+/* "More" */
+.link-chevron {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.875rem;
+  color: var(--black);
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.chevron-icon {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-color: currentColor;
+  -webkit-mask: url("../icons/chevron.svg") no-repeat center / contain;
+  mask: url("../icons/chevron.svg") no-repeat center / contain;
+}
+
+/* Platform details */
+.platform-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.platform-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.platform-badge {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.platform-dest {
+  font-size: 1rem;
+  color: var(--black);
+}
+
+/* Next 3 trains details */
+.train-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.train-card {
+  min-height: 66px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--grey-0);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.train-card.is-first {
+  background: var(--brand-50);
+}
+
+.train-time {
+  font-size: 0.875rem;
+  color: var(--black);
+  line-height: 1.1;
+}
+
+.train-time strong {
+  font-size: 1.55rem;
+  font-weight: 700;
+}
+
+.train-time.is-arr {
+  color: var(--success-solid);
+}
+
+.train-terminus {
+  font-size: 0.8125rem;
+  color: var(--black);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 340px) {
+  .train-card {
+    min-height: 60px;
+    padding: 6px 7px;
+  }
+
+  .train-time strong {
+    font-size: 1.3rem;
+  }
+
+  .train-terminus {
+    font-size: 0.75rem;
+  }
+}

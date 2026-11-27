@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caplets – Documentation</title>
+  <link rel="stylesheet" href="styles/global.css">
+  <style>
+    /* Docs-only styling */
+    body { line-height: 1.55; }
+    .doc { max-width: 860px; margin: 0 auto; padding: 24px 16px 80px; }
+    .doc h1 { margin: 0 0 4px; font-size: 1.9rem; color: var(--brand-800); }
+    .doc h2 { margin: 48px 0 8px; padding-top: 16px; border-top: 1px solid var(--grey-200); font-size: 1.3rem; color: var(--brand-800); }
+    .doc h3 { margin: 24px 0 6px; font-size: 1rem; }
+    .doc p { margin: 8px 0; }
+    .lead { color: var(--grey-600); margin: 0 0 24px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.875em; background: var(--grey-100); padding: 1px 5px; border-radius: 4px; }
+    pre { margin: 8px 0; padding: 12px 14px; overflow-x: auto; background: var(--brand-900); color: var(--brand-100); border-radius: 10px; font-size: 0.8125rem; line-height: 1.5; }
+    pre code { background: none; padding: 0; color: inherit; font-size: inherit; }
+    .demo { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin: 8px 0; padding: 16px; background: var(--grey-100); border: 1px solid var(--grey-200); border-radius: 10px; }
+    .demo figure { margin: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+    .demo figcaption { font-size: 0.75rem; color: var(--grey-600); }
+    table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 0.9rem; }
+    th, td { padding: 8px 10px; text-align: left; vertical-align: middle; border-bottom: 1px solid var(--grey-200); }
+    th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--grey-600); }
+    .note { margin: 12px 0; padding: 10px 14px; background: var(--info-tint); border: 1px solid var(--info-border); border-radius: 10px; color: var(--info-shade); font-size: 0.9rem; }
+    .caplet-svg.size-s { height: 20px; }
+    .caplet-svg.size-l { height: 56px; }
+    .credit { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--grey-200); font-size: 0.8125rem; color: var(--grey-600); }
+    .playground { display: grid; gap: 10px; padding: 16px; background: var(--grey-100); border: 1px solid var(--grey-200); border-radius: 10px; }
+    .playground .row { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+    .playground label { display: flex; align-items: center; gap: 6px; font-size: 0.875rem; }
+    .playground input[type="text"] { height: 36px; padding: 0 10px; border: 1px solid var(--grey-300); border-radius: 8px; font: inherit; }
+    .playground input[type="color"] { width: 36px; height: 30px; padding: 0; border: 1px solid var(--grey-300); border-radius: 6px; background: none; }
+    .playground .out { min-height: 40px; display: flex; align-items: center; }
+    .playground pre { margin: 0; }
+  </style>
+</head>
+
+<body>
+  <main class="doc">
+    <h1>Caplets</h1>
+    <p class="lead">Generate MRT/LRT station caplets from a station code. Colours come from the line variables in <code>global.css</code>, so nothing is drawn by hand.</p>
+
+    <h2 id="setup">1. Setup</h2>
+    <p>Include the stylesheet and the script. The script also exposes the functions on <code>window</code>.</p>
+    <pre><code>&lt;link rel="stylesheet" href="styles/global.css"&gt;
+&lt;script src="scripts/caplets.js"&gt;&lt;/script&gt;</code></pre>
+    <p>Caplets are inline SVGs with the class <code>caplet-svg</code>. Control their size with CSS; width follows automatically.</p>
+    <pre><code>.caplet-svg { height: 28px; width: auto; }   /* already in global.css */</code></pre>
+    <div class="note">The text uses the local <strong>LTA-Identity</strong> font declared in <code>global.css</code>. Font size and alignment are set inline on each caplet, so they are not affected by the <code>.caplet-svg text</code> rule.</div>
+
+    <h2 id="html">2. Two ways to create a caplet</h2>
+
+    <h3>In HTML: <code>data-caplet</code></h3>
+    <p>Any element with <code>data-caplet</code> is replaced by a caplet when the page loads. Classes on the element are copied to the caplet.</p>
+    <pre><code>&lt;span data-caplet="NS22"&gt;&lt;/span&gt;</code></pre>
+    <div class="demo"><span data-caplet="NS22"></span></div>
+
+    <h3>In JavaScript: <code>createCaplet()</code></h3>
+    <p>Returns an <code>&lt;svg&gt;</code> element you can insert anywhere.</p>
+    <pre><code>document.querySelector("#station-list").append(createCaplet("NS22"));</code></pre>
+    <div class="demo" id="js-demo"></div>
+
+    <p>Elements added after page load are not picked up automatically. Call <code>hydrateCaplets(container)</code> on the container that holds new <code>data-caplet</code> elements.</p>
+    <pre><code>list.insertAdjacentHTML("beforeend", '&lt;span data-caplet="DT11"&gt;&lt;/span&gt;');
+hydrateCaplets(list);</code></pre>
+
+    <h2 id="codes">3. Code formats</h2>
+    <p>Codes are case-insensitive, and a space between the letters and number is optional. Text is displayed as <code>NS 22</code>.</p>
+    <table>
+      <thead><tr><th>Input</th><th>Result</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><code>NS22</code></td><td><span data-caplet="NS22"></span></td><td>Station code</td></tr>
+        <tr><td><code>TE22A</code></td><td><span data-caplet="TE22A"></span></td><td>Suffix letter after the number</td></tr>
+        <tr><td><code>JS2A</code></td><td><span data-caplet="JS2A"></span></td><td>Suffix letter after the number</td></tr>
+        <tr><td><code>NS</code></td><td><span data-caplet="NS"></span></td><td>Line prefix only</td></tr>
+        <tr><td><code>NSL</code></td><td><span data-caplet="NSL"></span></td><td>Full line name only</td></tr>
+        <tr><td><code>XX9</code></td><td><span data-caplet="XX9"></span></td><td>Unknown prefix: grey fallback</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="interchange">4. Interchange caplets</h2>
+    <p>Give several codes separated by <code>/</code>, a comma or a space (or pass an array). They are drawn as one caplet with a shared outline, in the order given.</p>
+    <pre><code>&lt;span data-caplet="NS25/EW13"&gt;&lt;/span&gt;
+&lt;span data-caplet="CC1/NE6/NS24"&gt;&lt;/span&gt;
+
+createCaplet("NS25/EW13");
+createCaplet(["CC1", "NE6", "NS24"]);</code></pre>
+    <div class="demo">
+      <figure><span data-caplet="NS25/EW13"></span><figcaption>NS25/EW13</figcaption></figure>
+      <figure><span data-caplet="CC1/NE6/NS24"></span><figcaption>CC1/NE6/NS24</figcaption></figure>
+      <figure><span data-caplet="TE22A/NS1"></span><figcaption>TE22A/NS1</figcaption></figure>
+    </div>
+
+    <h2 id="transfer">5. Tap-out-to-transfer caplets</h2>
+    <p>Add <code>data-caplet-transfer</code> (HTML) or <code>{ transfer: true }</code> (JS), or use <code>createTransferCaplet()</code>. The caplets stay separate and are joined by a connector split in the two line colours. Two or more codes are supported.</p>
+    <pre><code>&lt;span data-caplet="DT11/NS21" data-caplet-transfer&gt;&lt;/span&gt;
+
+createCaplet("DT11/NS21", { transfer: true });
+createTransferCaplet("DT11", "NS21");
+createTransferCaplet(["DT11", "NS21"], { outline: "#fff" });</code></pre>
+    <div class="demo">
+      <figure><span data-caplet="DT11/NS21" data-caplet-transfer></span><figcaption>DT11/NS21</figcaption></figure>
+    </div>
+
+    <h2 id="colours">6. Custom colours</h2>
+    <p>Pass <code>fill</code>, <code>outline</code> and <code>textColor</code>. Any CSS colour works, including variables such as <code>var(--brand-500)</code>.</p>
+    <table>
+      <thead><tr><th>Option</th><th>HTML attribute</th><th>Applies to</th></tr></thead>
+      <tbody>
+        <tr><td><code>fill</code></td><td><code>data-caplet-fill</code></td><td>The coloured shape(s). String for all, array for per-segment (<code>null</code> keeps the line colour).</td></tr>
+        <tr><td><code>outline</code></td><td><code>data-caplet-outline</code></td><td>The larger shape behind. Default white. One value for the whole caplet.</td></tr>
+        <tr><td><code>textColor</code></td><td><code>data-caplet-text</code></td><td>The label. String or array like <code>fill</code>.</td></tr>
+        <tr><td><code>transfer</code></td><td><code>data-caplet-transfer</code></td><td>Tap-out-to-transfer layout.</td></tr>
+      </tbody>
+    </table>
+    <p>In HTML attributes, separate array values with <code>|</code> (for example <code>data-caplet-fill="#123456|#abcdef"</code>; leave an entry empty to keep the default).</p>
+    <p>If you set a custom hex <code>fill</code> without <code>textColor</code>, the text switches between dark and light for contrast. For non-hex fills (such as CSS variables) the line's default text colour is used, so set <code>textColor</code> yourself if needed.</p>
+    <pre><code>&lt;span data-caplet="NS22" data-caplet-fill="#FFD100" data-caplet-outline="#2E2A25"&gt;&lt;/span&gt;
+&lt;span data-caplet="NS25/EW13" data-caplet-fill="#123456|"&gt;&lt;/span&gt;
+
+createCaplet("NS22", { fill: "#FFD100", outline: "#2E2A25" });
+createCaplet("NS25/EW13", { fill: ["#123456", null] });
+createCaplet("NS22", { fill: "var(--brand-500)", textColor: "#fff" });</code></pre>
+    <div class="demo">
+      <figure><span data-caplet="NS22" data-caplet-fill="#FFD100" data-caplet-outline="#2E2A25"></span><figcaption>fill + outline</figcaption></figure>
+      <figure><span data-caplet="NS25/EW13" data-caplet-fill="#123456|"></span><figcaption>per-segment fill</figcaption></figure>
+      <figure><span data-caplet="NS22" data-caplet-fill="var(--brand-500)" data-caplet-text="#ffffff"></span><figcaption>CSS variable</figcaption></figure>
+    </div>
+
+    <h2 id="sizing">7. Sizing</h2>
+    <p>Caplets are SVGs with a fixed <code>viewBox</code> (116 units tall; the width depends on how many codes it has). The outline, shapes, text and connector are all drawn in those units, so everything scales together and the proportions never change. Set the <strong>height</strong> with CSS and the width follows automatically.</p>
+    <pre><code>.caplet-svg { height: 28px; width: auto; }   /* default, in global.css */
+.caplet-svg { height: 1.6em; }               /* scale with the surrounding font-size */
+.station-title .caplet-svg { height: 40px; } /* larger in one place */</code></pre>
+    <p>Classes on a <code>data-caplet</code> element are copied onto the SVG, so you can size individual caplets:</p>
+    <pre><code>&lt;span data-caplet="NS22" class="size-l"&gt;&lt;/span&gt;</code></pre>
+    <div class="demo">
+      <figure><span data-caplet="NS25/EW13" class="size-s"></span><figcaption>20px tall</figcaption></figure>
+      <figure><span data-caplet="NS25/EW13"></span><figcaption>28px tall (default)</figcaption></figure>
+      <figure><span data-caplet="NS25/EW13" class="size-l"></span><figcaption>56px tall</figcaption></figure>
+      <figure><span data-caplet="DT11/NS21" data-caplet-transfer class="size-s"></span><figcaption>transfer, 20px</figcaption></figure>
+    </div>
+    <div class="note">Caplets never stretch. If you set both <code>width</code> and <code>height</code> to a ratio that doesn't match, the caplet stays undistorted and is centred in the box. A caplet's width depends on its number of codes, so an interchange caplet is wider than a single one at the same height. To fix the width instead, set <code>width</code> and leave <code>height</code> as <code>auto</code>; wider caplets will then be shorter.</div>
+
+    <h2 id="playground">8. Playground</h2>
+    <div class="playground">
+      <div class="row">
+        <label>Code(s) <input type="text" id="pg-codes" value="NS21/DT11" size="18"></label>
+        <label><input type="checkbox" id="pg-transfer"> Transfer</label>
+      </div>
+      <div class="row">
+        <label><input type="checkbox" id="pg-use-fill"> Fill <input type="color" id="pg-fill" value="#FFD100"></label>
+        <label><input type="checkbox" id="pg-use-outline"> Outline <input type="color" id="pg-outline" value="#2E2A25"></label>
+      </div>
+      <div class="out" id="pg-out"></div>
+      <pre><code id="pg-code"></code></pre>
+    </div>
+
+    <h2 id="reference">9. Reference</h2>
+
+    <h3>Functions</h3>
+    <table>
+      <thead><tr><th>Function</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>createCaplet(input, options?)</code></td><td>Returns an SVG element. <code>input</code> is a string or array of codes.</td></tr>
+        <tr><td><code>createTransferCaplet(...codes, options?)</code></td><td>Same as <code>createCaplet</code> with <code>transfer: true</code>. Accepts separate arguments or one array.</td></tr>
+        <tr><td><code>hydrateCaplets(root?)</code></td><td>Replaces every <code>[data-caplet]</code> under <code>root</code> (default: the document). Runs automatically on page load.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Line colours</h3>
+    <p>The prefix picks the colour variable. Full line names (<code>NSL</code>, …) map to the same colour.</p>
+    <table id="line-table">
+      <thead><tr><th>Prefix</th><th>Line</th><th>Colour</th><th>Example</th><th>Line name input</th></tr></thead>
+      <tbody></tbody>
+    </table>
+
+    <h3>Adding or changing a line</h3>
+    <p>Edit the <code>LINES</code> table at the top of <code>caplets.js</code> (and <code>LINE_ALIASES</code> for full names). Set <code>text</code> when a line needs dark text.</p>
+    <pre><code>const LINES = {
+  ...
+  XY: { fill: "var(--some-colour)", text: DARK_TEXT },
+};</code></pre>
+
+    <footer class="credit">
+      The caplet generator (<code>caplets.js</code>) and this documentation were made entirely by Claude, an AI assistant made by Anthropic, based on the caplet SVG files and styles provided in the project. The LTA Identity font is copyright of LTA Singapore. This is an independent project and is not associated with LTA Singapore.
+    </footer>
+  </main>
+
+  <script src="scripts/caplets.js"></script>
+  <script>
+    // Runs before caplets.js hydrates on DOMContentLoaded, so data-caplet spans added here are picked up.
+
+    // JS example
+    document.getElementById("js-demo").append(createCaplet("NS22"));
+
+    // Line table
+    const LINE_ROWS = [
+      ["NS", "North South Line", "--nsl", "NSL"],
+      ["EW", "East West Line", "--ewl", "EWL"],
+      ["CG", "Changi Airport branch", "--ewl", ""],
+      ["NE", "North East Line", "--nel", "NEL"],
+      ["CC", "Circle Line", "--ccl", "CCL"],
+      ["CE", "Circle Line extension", "--ccl", ""],
+      ["DT", "Downtown Line", "--dtl", "DTL"],
+      ["TE", "Thomson-East Coast Line", "--tel", "TEL"],
+      ["JS / JE / JW", "Jurong Region Line", "--jrl", "JRL"],
+      ["CR / CP", "Cross Island Line", "--crl", "CRL"],
+      ["BP", "Bukit Panjang LRT", "--lrt", "BPL"],
+      ["SE / SW", "Sengkang LRT", "--lrt", "SKL"],
+      ["PE / PW", "Punggol LRT", "--lrt", "PGL"],
+    ];
+    const tbody = document.querySelector("#line-table tbody");
+    for (const [prefix, name, variable, alias] of LINE_ROWS) {
+      const example = prefix.split(" / ")[0] + "1";
+      const tr = document.createElement("tr");
+      tr.innerHTML =
+        `<td><code>${prefix}</code></td><td>${name}</td><td><code>var(${variable})</code></td>` +
+        `<td><span data-caplet="${example}"></span></td>` +
+        `<td>${alias ? `<code>${alias}</code>` : "–"}</td>`;
+      tbody.appendChild(tr);
+    }
+
+    // Playground
+    const $ = (id) => document.getElementById(id);
+    function updatePlayground() {
+      const codes = $("pg-codes").value.trim();
+      const options = {};
+      if ($("pg-transfer").checked) options.transfer = true;
+      if ($("pg-use-fill").checked) options.fill = $("pg-fill").value;
+      if ($("pg-use-outline").checked) options.outline = $("pg-outline").value;
+
+      $("pg-out").replaceChildren(codes ? createCaplet(codes, options) : "");
+      const optText = Object.keys(options).length ? ", " + JSON.stringify(options) : "";
+      $("pg-code").textContent = `createCaplet(${JSON.stringify(codes)}${optText});`;
+    }
+    document.querySelector(".playground").addEventListener("input", updatePlayground);
+    updatePlayground();
+  </script>
+</body>
+
+</html>
