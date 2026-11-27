@@ -141,74 +141,12 @@ button {
 /* Header */
 .header {
   position: relative;
-  height: 56px;
+  height: 50px;
   padding: 0 56px;
   background: var(--brand-800);
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.header-logo {
-  display: block;
-  height: 28px;
-  max-width: 100%;
-  object-fit: contain;
-  filter: brightness(0) invert(1);
-  cursor: pointer;
-}
-
-.menu-button {
-  position: absolute;
-  left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.menu-button img {
-  display: block;
-  width: 26px;
-}
-
-/* Banner */
-.banner {
-  min-height: 50px;
-  padding: 0 clamp(10px, 4.5vw, 16px);
-  display: flex;
-  align-items: center;
-  gap: clamp(6px, 3.5vw, 12px);
-  background: var(--info-tint);
-  color: var(--info-shade);
-}
-
-.banner-icon {
-  width: clamp(16px, 7vw, 24px);
-  flex-shrink: 0;
-}
-
-.banner-text {
-  flex: 1;
-  font-size: clamp(0.8rem, 7vw, 1.3rem);
-  white-space: nowrap;
-}
-
-.banner-badge {
-  width: clamp(16px, 6.5vw, 22px);
-  height: clamp(16px, 6.5vw, 22px);
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: var(--info-solid);
-  color: var(--grey-0);
-  font-size: clamp(0.65rem, 4vw, 0.875rem);
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.banner-arrow {
-  width: clamp(12px, 5vw, 18px);
-  flex-shrink: 0;
 }
 
 /* Pills */
